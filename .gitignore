@@ -1,0 +1,40 @@
+# ===========================
+# Visual Studio / .NET
+# ===========================
+**/.vs/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build Folders
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+*.dll
+*.exe
+*.pdb
+
+# IDE
+.vscode/
+.idea/
+
+# ===========================
+# Node / Next.js
+# ===========================
+**/node_modules/
+**/dist/
+**/build/
+**/.next/
+.env*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+

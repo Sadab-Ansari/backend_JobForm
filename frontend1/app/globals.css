@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+.modal-open {
+  overflow: hidden;
+}
+
+.modal-open::backdrop {
+  backdrop-filter: blur(12px);
+}
+
