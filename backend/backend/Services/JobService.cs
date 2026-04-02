@@ -23,5 +23,38 @@ namespace backend.Services
             _context.SaveChanges();
             return job;
         }
+
+        public Job? GetJobById(int id)
+        {
+            return _context.Jobs.Find(id);
+        }
+
+        public Job? UpdateJob(int id, Job updated)
+        {
+            var job = _context.Jobs.Find(id);
+            if (job == null) return null;
+
+            // update fields
+            job.Name = updated.Name;
+            job.Email = updated.Email;
+            job.Phone = updated.Phone;
+            job.Designation = updated.Designation;
+            job.State = updated.State;
+            job.District = updated.District;
+            job.Address = updated.Address;
+            job.Skills = updated.Skills;
+
+            _context.SaveChanges();
+            return job;
+        }
+
+        public bool DeleteJob(int id)
+        {
+            var job = _context.Jobs.Find(id);
+            if (job == null) return false;
+            _context.Jobs.Remove(job);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

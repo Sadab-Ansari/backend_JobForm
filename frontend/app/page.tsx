@@ -310,4 +310,3 @@ else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) newErrors.phone = 
     </div>
   );
 }
-
