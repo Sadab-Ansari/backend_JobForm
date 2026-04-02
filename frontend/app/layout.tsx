@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { JobProvider } from "../contexts/JobContext";
+import { AuthProvider } from "../contexts/AuthContext";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,7 +30,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <JobProvider>{children}</JobProvider>
+        <AuthProvider>
+          <JobProvider>{children}</JobProvider>
+        </AuthProvider>
       </body>
     </html>
   );

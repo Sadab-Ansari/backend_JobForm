@@ -1,6 +1,7 @@
 "use client"
 import { useState, FormEvent, ChangeEvent } from 'react';
 import ListView from '../../components/ListView';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface JobFormData {
   name: string;
@@ -37,6 +38,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { register } = useAuth();
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -66,14 +68,35 @@ else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) newErrors.phone = 
     setMessage('');
 
     try {
+      // Step 1: Register/Create user account with email and password
+      const registerResult = await register(formData.email, formData.password, formData.name);
+      
+      if (!registerResult.success) {
+        setMessage(registerResult.message || 'Registration failed. Please try again.');
+        setLoading(false);
+        return;
+      }
+
+      // Step 2: Submit job application (without password - user is now authenticated)
+      const jobData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        designation: formData.designation,
+        state: formData.state,
+        district: formData.district,
+        address: formData.address,
+        skills: formData.skills,
+      };
+
       const response = await fetch('http://localhost:5063/api/job', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(jobData),
       });
 
       if (response.ok) {
-        setMessage('Job application submitted successfully!');
+        setMessage('Job application submitted successfully! Account created with your email.');
         setFormData({
           name: '',
           email: '',
@@ -87,9 +110,9 @@ else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) newErrors.phone = 
           confirmPassword: '',
         });
       } else {
-        setMessage('Submission failed. Please try again.');
+        setMessage('Job submission failed, but your account was created. Please try submitting again.');
       }
-    } catch (error) {
+    } catch {
       setMessage('Network error. Please check backend.');
     } finally {
       setLoading(false);

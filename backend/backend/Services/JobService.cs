@@ -43,7 +43,6 @@ namespace backend.Services
             job.District = updated.District;
             job.Address = updated.Address;
             job.Skills = updated.Skills;
-            job.Password = updated.Password;
 
             _context.SaveChanges();
             return job;
